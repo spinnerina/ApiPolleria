@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('cli_dni');
             $table->string('cli_cuit');
             $table->string('cli_direccion')->nullable();
+            $table->boolean('cli_activo')->default(true);
             $table->unsignedBigInteger('loc_id')->nullable();
             
             $table->foreign('loc_id')
