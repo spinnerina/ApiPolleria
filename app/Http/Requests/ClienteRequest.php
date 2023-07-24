@@ -16,22 +16,17 @@ class ClienteRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
             'cli_nombre' => 'required|min:5',
             'cli_mail' => 'required|min:5',
             'cli_telefono' => 'required|max:12',
-            'cli_dni' => 'required|max:8',
-            'cli_cuit' => 'required|max:11',
-            'cli_domicilio' => 'required|min:5',
-            'cli_activo' => 'required|boolean',
-            'loc_id' => 'required|integer'
+            'cli_dni' => 'max:8',
+            'cli_cuit' => 'max:11',
+            'cli_direccion' => 'required|min:5',
+            'loc_id' => 'required|integer',
+            'iva_id' => 'required|integer'
         ];
     }
 }

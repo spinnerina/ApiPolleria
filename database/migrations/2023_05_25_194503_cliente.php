@@ -28,6 +28,13 @@ return new class extends Migration
                   ->references('loc_id')
                   ->on('Localidad')
                   ->onDelete('set null');
+
+            $table->unsignedBigInteger('iva_id')->nullable();
+
+            $table->foreign('iva_id')
+                  ->references('iva_id')
+                  ->on('CondicionIva')
+                  ->onDelete('set null');
         });
     }
 

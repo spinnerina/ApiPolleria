@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cajas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('CondicionIva', function (Blueprint $table) {
+            $table->id('iva_id');
+            $table->string('iva_descripcion');
+            $table->string('iva_letra');
+            $table->boolean('iva_habilitado');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cajas');
+        //
     }
 };

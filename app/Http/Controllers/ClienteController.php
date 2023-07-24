@@ -25,7 +25,7 @@ class ClienteController extends Controller
         $clienteNuevo = $request->all();
         $clienteCreado = Cliente::create($clienteNuevo);
 
-        if ($clienteCreado) {
+        if ($clienteCreado instanceof Cliente) {
             return response()->json([
                 'message' => 'Cliente creado exitosamente'
             ], 201);
@@ -33,7 +33,6 @@ class ClienteController extends Controller
             return response()->json([
                 'message' => 'Error al crear el cliente'
             ], 500);
-        
         }
     }
 }

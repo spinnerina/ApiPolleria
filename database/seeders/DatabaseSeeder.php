@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocalidadSeeder::class);
         $this->call(FormaPagoSeeder::class);
         $this->call(EmpresaSeeder::class);
+        $this->call(CondicionIvaSeeder::class);
     }
 }

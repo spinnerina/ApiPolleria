@@ -7,6 +7,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LocalidadController;
 
 Route::post('/login', [UsuarioController::class, 'login']);
-Route::get('/clientes', [ClienteController::class, 'getClientes']);
 Route::get('/localidades', [LocalidadController::class, 'getLocalidades']);
+//Cliente
+Route::get('/clientes', [ClienteController::class, 'getClientes']);
+Route::post('/clientes/nuevo', [ClienteController::class, 'createCliente']);
 
