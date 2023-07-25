@@ -22,8 +22,9 @@ class ClienteRequest extends FormRequest
             'cli_nombre' => 'required|min:5',
             'cli_mail' => 'required|min:5',
             'cli_telefono' => 'required|max:12',
-            'cli_dni' => 'max:8',
+            'cli_dni' => 'max:9',
             'cli_cuit' => 'max:11',
+            'cli_activo' => 'required',
             'cli_direccion' => 'required|min:5',
             'loc_id' => 'required|integer',
             'iva_id' => 'required|integer'

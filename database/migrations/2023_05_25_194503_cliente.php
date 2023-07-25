@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('cli_nombre');
             $table->string('cli_mail')->nullable();
             $table->string('cli_telefono')->nullable();
-            $table->string('cli_dni');
-            $table->string('cli_cuit');
+            $table->string('cli_dni')->nullable();
+            $table->string('cli_cuit')->nullable();
             $table->string('cli_direccion')->nullable();
             $table->boolean('cli_activo')->default(true);
             $table->unsignedBigInteger('loc_id')->nullable();
@@ -35,6 +35,8 @@ return new class extends Migration
                   ->references('iva_id')
                   ->on('CondicionIva')
                   ->onDelete('set null');
+
+            $table->timestamps();
         });
     }
 
