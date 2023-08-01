@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id('prod_id');
-            $table->string('prod_cod');
-            $table->string('prod_descri');
-            $table->string('prod_cod_barra')->nullable();
-            $table->decimal('prod_precio_lista', 10, 2); 
-            $table->string('prod_imagen')->nullable();
-            $table->timestamps();
+        Schema::create('GastosProveedor', function (Blueprint $table) {
+            $table->id('gast_id');
             $table->unsignedBigInteger('prov_id')->nullable();
 
             $table->foreign('prov_id')
@@ -28,6 +22,8 @@ return new class extends Migration
                   ->on('Proveedor')
                   ->onDelete('set null');
 
+            $table->date('gast_fecha');
+            $table->decimal('gast_total', 10, 2);            
         });
     }
 
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('productos');
+        Schema::dropIfExists('GastosProveedor');
     }
 };

@@ -15,9 +15,9 @@ class UsuarioController extends Controller
         $user = Usuario::where('usu_login', $credentials['usu_login'])->first();
         
         if ($user && Hash::check($credentials['usu_contrasenia'], $user->usu_contrasenia)) {
-            return response()->json(['message' => 'Login Correcto', 'usuario' => $user]);
+            return response()->json(['message' => 'Login Correcto', 'usuario' => $user],200);
         } else {
-            return response()->json(['message' => 'Credenciales invalidas.'], 401);
+            return response()->json(['message' => 'Credenciales invalidas.'], 200);
         }
     }
 }

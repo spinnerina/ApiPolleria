@@ -18,8 +18,15 @@ return new class extends Migration
             $table->string('prod_cod');
             $table->string('prod_descri');
             $table->string('prod_cod_barra')->nullable();
-            $table->decimal('prod_precio_lista', 9,2);
-            $table->string('prod_img')->nullable();
+            $table->decimal('prod_precio_lista', 10,2);
+            $table->string('prod_imagen')->nullable();
+            $table->timestamps();
+            $table->unsignedBigInteger('prov_id')->nullable();
+
+            $table->foreign('prov_id')
+                  ->references('prov_id')
+                  ->on('Proveedor')
+                  ->onDelete('set null');
         });
     }
 

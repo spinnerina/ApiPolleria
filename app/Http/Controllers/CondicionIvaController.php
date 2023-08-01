@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 class CondicionIvaController extends Controller
 {
     public function getCondicionIva(){
-        $condicionIva = CondicionIva::where('iva_habilitado', true);
+        $condicionIva = CondicionIva::where('iva_habilitado', true)
+                                    ->select('condicioniva.*')
+                                    ->get();
 
-        if($condicionIva->isNotEmpty()){
-            return response()->json(['message' => 'Condiciones obtenidas', 'condicionIva' => $condicionIva]);
-        }else{
+        if($condicionIva->isEmpty()){
             return response()->json(['message' => 'No existen condiciones agregadas o habilitadas']);
+        }else{
+            return response()->json(['message' => 'Condiciones obtenidas', 'condicionIva' => $condicionIva]);
         }
     }
 }
