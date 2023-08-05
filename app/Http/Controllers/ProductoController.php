@@ -14,12 +14,12 @@ class ProductoController extends Controller
         $productoCreado = Producto::create($productoNuevo);
 
         if($productoCreado instanceof Producto){
-            $getProducto = Producto::where('prod_id', '=', $productoCreado->id)
+            $getProducto = Producto::where('prod_id', '=', $productoCreado->prod_id)
                             ->select('producto.*')
                             ->get();
             return response()->json([
                 'message'=> "Producto creado correctamente",
-                'productos'=> $getProducto 
+                'productos'=> $getProducto
             ],201);
         }else{
             return response()->json([
@@ -29,9 +29,11 @@ class ProductoController extends Controller
     }
 
     public function getProducto(){
+        $return = array();
         $producto = Producto::leftjoin('proveedor', 'producto.prov_id', '=', 'proveedor.prov_id')
                             ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
-                            ->select('producto.*', 'proveedor.prov_nombre', 'stock.stock_cantidad')
+                            ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
+                            ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
                             ->get();
         if($producto->isEmpty()){
             return response()->json([
@@ -86,5 +88,25 @@ class ProductoController extends Controller
             ], 200);
         }
     }
+
+
+    public function getProductosSinPorcentaje(){
+        //Obtener id de los productos que tienen porcentajes
+        $productosConPorcentaje = Producto::has('porcentaje')->pluck('prod_id')->toArray();
+
+        $productosSinPorcentaje = Producto::whereNotIn('prod_id', $productosConPorcentaje)->get(); 
+
+        if($productosSinPorcentaje->isEmpty()){
+            return response()->json([
+                'message' => "No se encontraron productos sin porcentaje asignado"
+            ], 404);
+        }else{
+            return response()->json([
+                'message' => "Productos sin porcentaje cargados",
+                'productos' => $productosSinPorcentaje
+            ], 200);
+        }
+    }
+
 
 }

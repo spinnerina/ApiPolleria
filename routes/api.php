@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\PorcentajeController;
 use App\Http\Controllers\CondicionIvaController;
 use App\Http\Controllers\HistorialStockController;
 
@@ -31,6 +32,7 @@ Route::get('/producto', [ProductoController::class, 'getProducto']);
 Route::post('/producto/nuevo', [ProductoController::class, 'createProducto']);
 Route::put('/producto/actualizar/{prod_id}', [ProductoController::class, 'updateProducto']);
 Route::get('/producto/buscar/{prod_cod_barra}', [ProductoController::class, 'getCodigoBarra']);
+Route::get('/producto/sinPorcentaje', [ProductoController::class, 'getProductosSinPorcentaje']);
 
 
 
@@ -52,3 +54,8 @@ Route::post('/historialStock/nuevo', [HistorialStockController::class, 'createHi
 
 //Condicion Iva
 Route::get('/CondicionIva', [CondicionIvaController::class, 'getCondicionIva']);
+
+
+//Porcentaje
+Route::post('/porcentaje/nuevo', [PorcentajeController::class, 'createPorcentaje']);
+Route::get('/porcentaje/conPorcentaje', [PorcentajeController::class, 'getProductosConPorcentaje']);    
