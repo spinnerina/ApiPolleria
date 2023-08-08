@@ -11,6 +11,15 @@ class ProductoController extends Controller
 {
     public function createProducto(ProductoRequest $request){
         $productoNuevo = $request->all();
+        
+        $existeProducto = Producto::where('prod_cod', $productoNuevo['prod_cod'])->exists();
+
+        if($existeProducto){
+            return response()->json([
+                'message'=> "El codigo ya existe en la base de datos"
+            ],200);
+        }
+
         $productoCreado = Producto::create($productoNuevo);
 
         if($productoCreado instanceof Producto){
@@ -73,7 +82,8 @@ class ProductoController extends Controller
     public function getCodigoBarra($prod_cod_barra){
         $producto = Producto::leftjoin('proveedor', 'producto.prov_id', '=', 'proveedor.prov_id')
                             ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
-                            ->select('producto.*', 'proveedor.prov_nombre', 'stock.stock_cantidad')
+                            ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
+                            ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
                             ->where('prod_cod_barra', '=', $prod_cod_barra)
                             ->get();
 
@@ -107,6 +117,29 @@ class ProductoController extends Controller
             ], 200);
         }
     }
+
+
+    public function buscarProducto(Request $request){
+        $busqueda = $request->all();
+        $productoObtenido = Producto::leftjoin('proveedor', 'producto.prov_id', '=', 'proveedor.prov_id')
+                                    ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
+                                    ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
+                                    ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
+                                    ->where($busqueda)
+                                    ->get();
+
+        if($productoObtenido->isEmpty()){
+            return response()->json([
+                'message'=> "No se encontro un producto con esa especificacion"
+            ], 200);
+        }else{
+            return response()->json([
+                'message'=> "Producto cargado",
+                'productos'=> $productoObtenido
+            ], 200);
+        }
+    }
+ 
 
 
 }

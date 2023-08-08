@@ -33,6 +33,7 @@ Route::post('/producto/nuevo', [ProductoController::class, 'createProducto']);
 Route::put('/producto/actualizar/{prod_id}', [ProductoController::class, 'updateProducto']);
 Route::get('/producto/buscar/{prod_cod_barra}', [ProductoController::class, 'getCodigoBarra']);
 Route::get('/producto/sinPorcentaje', [ProductoController::class, 'getProductosSinPorcentaje']);
+Route::post('/producto/buscar', [ProductoController::class, 'buscarProducto']);
 
 
 
