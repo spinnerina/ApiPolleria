@@ -34,6 +34,7 @@ Route::put('/producto/actualizar/{prod_id}', [ProductoController::class, 'update
 Route::get('/producto/buscar/{prod_cod_barra}', [ProductoController::class, 'getCodigoBarra']);
 Route::get('/producto/sinPorcentaje', [ProductoController::class, 'getProductosSinPorcentaje']);
 Route::post('/producto/buscar', [ProductoController::class, 'buscarProducto']);
+Route::post('/producto/buscarSinPorcentaje', [ProductoController::class, 'busquedaProductosSinPorcentaje']);
 
 
 

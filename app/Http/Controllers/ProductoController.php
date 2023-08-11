@@ -143,4 +143,26 @@ class ProductoController extends Controller
  
 
 
+    //Busqueda de productos sin porcentaje
+    public function busquedaProductosSinPorcentaje(Request $request){
+        //Obtener id de los productos que tienen porcentajes
+        $busqueda = $request->all();
+        $productosConPorcentaje = Porcentaje::pluck('prod_id')->toArray();
+
+        $productosSinPorcentaje = Producto::whereNotIn('prod_id', $productosConPorcentaje)
+                                          ->where($busqueda)  
+                                          ->get(); 
+
+        if($productosSinPorcentaje->isEmpty()){
+            return response()->json([
+                'message' => "No se encontraron productos sin porcentaje asignado"
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => "Productos sin porcentaje cargados",
+                'productos' => $productosSinPorcentaje
+            ], 200);
+        }
+    }
+
 }
