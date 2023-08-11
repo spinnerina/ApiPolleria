@@ -11,6 +11,13 @@ class PorcentajeController extends Controller
     
     public function createPorcentaje(PorcentajeRequest $request){
         $porcentajeNuevo = $request->all();
+        $existeProducto = Porcentaje::where('prod_id', $porcentajeNuevo['prod_id'])->exists();
+
+        if($existeProducto){
+            return response()->json([
+                'message'=> "El producto ya tiene porcentaje asignado"
+            ],200);
+        }
         $porcentajeCreado = Porcentaje::create($porcentajeNuevo);
 
         if($porcentajeCreado instanceof Porcentaje){

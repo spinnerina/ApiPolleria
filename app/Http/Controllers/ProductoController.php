@@ -6,6 +6,7 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ProductoRequest;
+use App\Models\Porcentaje;
 
 class ProductoController extends Controller
 {
@@ -62,7 +63,7 @@ class ProductoController extends Controller
         $datosActualizar = $request->all();
 
         //Me aseguro que no se actulice el prod_id
-        unset($datosActualizar['prod_id']);
+        unset($datosActualizar['prod_id'], $datosActualizar['prod_precio_final']);
 
         $update = DB::table('producto')
                             ->where('prod_id', $prod_id)
@@ -102,7 +103,7 @@ class ProductoController extends Controller
 
     public function getProductosSinPorcentaje(){
         //Obtener id de los productos que tienen porcentajes
-        $productosConPorcentaje = Producto::has('porcentaje')->pluck('prod_id')->toArray();
+        $productosConPorcentaje = Porcentaje::pluck('prod_id')->toArray();
 
         $productosSinPorcentaje = Producto::whereNotIn('prod_id', $productosConPorcentaje)->get(); 
 
