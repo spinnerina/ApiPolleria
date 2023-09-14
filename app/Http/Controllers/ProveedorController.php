@@ -33,12 +33,12 @@ class ProveedorController extends Controller
         if($proveedor->isEmpty()){
             return response()->json([
                 'message'=> "No se encontro ningun proveedor"
-            ]);
+            ], 404);
         }else{
             return response()->json([
                 'message'=> "Proveedores cargados",
                 'proveedores' => $proveedor
-            ]);
+            ],200);
         }
     }
 

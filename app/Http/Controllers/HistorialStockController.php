@@ -20,7 +20,7 @@ class HistorialStockController extends Controller
         }else{
             return response()->json([
                 'message'=> "Error al crear el historial del stock"
-            ]);
+            ], 404);
         }
     }
 }

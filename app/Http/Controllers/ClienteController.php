@@ -18,9 +18,9 @@ class ClienteController extends Controller
                     ->get();
 
         if($clientes->isEmpty()){
-            return response()->json(['message' => 'No hay clientes registrados en la base de datos']);
+            return response()->json(['message' => 'No hay clientes registrados en la base de datos'], 404);
         }else{
-            return response()->json(['message' => 'Clientes cargados', 'clientes' => $clientes]);
+            return response()->json(['message' => 'Clientes cargados', 'clientes' => $clientes], 200);
         }
     } 
 
@@ -37,7 +37,7 @@ class ClienteController extends Controller
         } else {
             return response()->json([
                 'message' => 'Error al crear el cliente'
-            ], 500);
+            ], 404);
         }
     }
 

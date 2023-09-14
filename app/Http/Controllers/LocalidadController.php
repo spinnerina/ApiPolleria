@@ -11,9 +11,9 @@ class LocalidadController extends Controller
         $localidades = Localidad::all();
 
         if($localidades->isNotEmpty()){
-            return response()->json(['message' => 'Localidades obtenidas', 'localidades' => $localidades]);
+            return response()->json(['message' => 'Localidades obtenidas', 'localidades' => $localidades], 200);
         }else{
-            return response()->json(['message' => 'No se encontraron localidades guardadas']);
+            return response()->json(['message' => 'No se encontraron localidades guardadas'],404);
         }
     }
 }

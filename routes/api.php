@@ -15,6 +15,9 @@ use App\Http\Controllers\HistorialStockController;
 //Usuario
 Route::post('/login', [UsuarioController::class, 'login']);
 
+//Apis protegidas por el token
+Route::middleware('jwt.verify')->group(function () {
+
 //Localidad
 Route::get('/localidades', [LocalidadController::class, 'getLocalidades']);
 
@@ -35,6 +38,11 @@ Route::get('/producto/buscar/{prod_cod_barra}', [ProductoController::class, 'get
 Route::get('/producto/sinPorcentaje', [ProductoController::class, 'getProductosSinPorcentaje']);
 Route::post('/producto/buscar', [ProductoController::class, 'buscarProducto']);
 Route::post('/producto/buscarSinPorcentaje', [ProductoController::class, 'busquedaProductosSinPorcentaje']);
+Route::delete('/producto/eliminar/{prod_cod}', [ProductoController::class, 'deleteProducto']);
+Route::get('/producto/deBaja', [ProductoController::class, 'getProductoDeBaja']);
+//Cambio de estados de productos
+Route::put('/producto/darBaja', [ProductoController::class, 'darBajaProducto']);
+Route::put('/producto/darAlta', [ProductoController::class, 'darAltaProducto']);
 
 
 
@@ -61,3 +69,7 @@ Route::get('/CondicionIva', [CondicionIvaController::class, 'getCondicionIva']);
 //Porcentaje
 Route::post('/porcentaje/nuevo', [PorcentajeController::class, 'createPorcentaje']);
 Route::get('/porcentaje/conPorcentaje', [PorcentajeController::class, 'getProductosConPorcentaje']);    
+
+
+
+});

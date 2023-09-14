@@ -44,6 +44,7 @@ class ProductoController extends Controller
                             ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
                             ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
                             ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
+                            ->where('producto.prod_estado', '=', 1)
                             ->get();
         if($producto->isEmpty()){
             return response()->json([
@@ -132,7 +133,7 @@ class ProductoController extends Controller
         if($productoObtenido->isEmpty()){
             return response()->json([
                 'message'=> "No se encontro un producto con esa especificacion"
-            ], 200);
+            ], 404);
         }else{
             return response()->json([
                 'message'=> "Producto cargado",
@@ -156,11 +157,83 @@ class ProductoController extends Controller
         if($productosSinPorcentaje->isEmpty()){
             return response()->json([
                 'message' => "No se encontraron productos sin porcentaje asignado"
-            ], 200);
+            ], 404);
         }else{
             return response()->json([
                 'message' => "Productos sin porcentaje cargados",
                 'productos' => $productosSinPorcentaje
+            ], 200);
+        }
+    }
+
+
+/* ---------------------------------------- Cambio de estado de producto -----------------------------------------------  */
+
+    public function darBajaProducto(Request $request){
+        $prod_cod = $request->prod_cod;
+        $update = DB::table('producto')
+                    ->where('prod_cod', '=', $prod_cod)
+                    ->update(['prod_estado' => false]);
+
+        if($update > 0){
+            return response()->json([
+                'message'=> "Producto actualizado correctamente"
+            ], 200);
+        }else{
+            return response()->json([
+                'message'=> "No se encontro el producto o no se pudo actualizar"
+            ], 404);
+        }
+    }
+
+
+    public function darAltaProducto(Request $request){
+        $prod_cod = $request->prod_cod;
+        $update = DB::table('producto')
+                    ->where('prod_cod', '=', $prod_cod)
+                    ->update(['prod_estado' => true]);
+
+        if($update > 0){
+            return response()->json([
+                'message'=> "Producto actualizado correctamente"
+            ], 200);
+        }else{
+            return response()->json([
+                'message'=> "No se encontro el producto o no se pudo actualizar"
+            ], 404);
+        }
+    }
+
+/*------------------------------------------------ FIN ------------------------------------------------------------ */
+
+    public function deleteProducto($prod_cod){
+        $delete = DB::table('producto')->where('prod_cod', '=', $prod_cod)->delete();
+
+        if($delete > 0){
+            return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+        }else {
+            return response()->json(['message' => 'No se encontró el producto o no se realizaron cambios'], 404);
+        } 
+    }
+
+
+    //Obtengo los productos que tienen estado 0
+    public function getProductoDeBaja(){
+        $return = array();
+        $producto = Producto::leftjoin('proveedor', 'producto.prov_id', '=', 'proveedor.prov_id')
+                            ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
+                            ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
+                            ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
+                            ->where('producto.prod_estado', '=', 0)
+                            ->get();
+        if($producto->isEmpty()){
+            return response()->json([
+                'message'=> "No se encontraron productos"
+            ], 404);
+        }else{
+            return response()->json([
+                'message'=> "Productos cargados",
+                'productos' => $producto,
             ], 200);
         }
     }

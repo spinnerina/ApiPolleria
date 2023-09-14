@@ -13,9 +13,9 @@ class CondicionIvaController extends Controller
                                     ->get();
 
         if($condicionIva->isEmpty()){
-            return response()->json(['message' => 'No existen condiciones agregadas o habilitadas']);
+            return response()->json(['message' => 'No existen condiciones agregadas o habilitadas'], 404);
         }else{
-            return response()->json(['message' => 'Condiciones obtenidas', 'condicionIva' => $condicionIva]);
+            return response()->json(['message' => 'Condiciones obtenidas', 'condicionIva' => $condicionIva], 200);
         }
     }
 }
