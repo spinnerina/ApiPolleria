@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ParametrosController;
 use App\Http\Controllers\PorcentajeController;
 use App\Http\Controllers\CondicionIvaController;
 use App\Http\Controllers\HistorialStockController;
@@ -50,6 +51,7 @@ Route::put('/producto/darAlta', [ProductoController::class, 'darAltaProducto']);
 Route::get('/proveedor', [ProveedorController::class, 'getProveedor']);
 Route::post('/proveedor/nuevo', [ProveedorController::class, 'createProveedor']);
 Route::put('/proveedor/actualizar/{prov_id}', [ProveedorController::class, 'updateProveedor']);
+Route::delete('/proveedor/eliminar', [ProveedorController::class, 'deleteProveedor']);
 
 
 //Stock
@@ -70,6 +72,11 @@ Route::get('/CondicionIva', [CondicionIvaController::class, 'getCondicionIva']);
 Route::post('/porcentaje/nuevo', [PorcentajeController::class, 'createPorcentaje']);
 Route::get('/porcentaje/conPorcentaje', [PorcentajeController::class, 'getProductosConPorcentaje']);    
 
+
+//Parametros
+Route::get('/parametro', [ParametrosController::class, 'getParametro']);
+Route::post('/parametro/nuevo', [ParametrosController::class, 'createParametro']);
+Route::put('/parametro/actualizar', [ParametrosController::class, 'updateParametro']);
 
 
 });

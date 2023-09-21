@@ -66,4 +66,19 @@ class ProveedorController extends Controller
     }
 
 
+    public function deleteProveedor($prov_id){
+        $delete = Proveedor::where('prov_id', '=', $prov_id)->delete();
+
+        if($delete > 0){
+            return response()->json([
+                'message' => "Proveedor eliminado correctamente"
+            ], 201);
+        }else{
+            return response()->json([
+                'message' => "Proveedor no encontrado o no se elimino correctamente"
+            ], 404);
+        }
+
+    }
+
 }
