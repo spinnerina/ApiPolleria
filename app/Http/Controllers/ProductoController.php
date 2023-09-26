@@ -127,7 +127,15 @@ class ProductoController extends Controller
                                     ->leftjoin('stock', 'producto.prod_id', '=', 'stock.prod_id')
                                     ->leftjoin('porcentaje', 'producto.prod_id', '=', 'porcentaje.prod_id')
                                     ->selectRaw('producto.*, proveedor.prov_nombre, stock.stock_cantidad, porcentaje.por_porcentaje, ROUND((producto.prod_precio_lista * (1 + (IFNULL(porcentaje.por_porcentaje, 0) / 100))), -1) as prod_precio_final')
-                                    ->where($busqueda)
+                                    ->where(function($query) use ($busqueda) {
+                                        foreach ($busqueda as $key => $value) {
+                                            if ($key === 'prod_descri') {
+                                                $query->orWhere($key, 'LIKE', '%' . $value . '%');
+                                            } else {
+                                                $query->orWhere($key, $value);
+                                            }
+                                        }
+                                    })
                                     ->get();
 
         if($productoObtenido->isEmpty()){
