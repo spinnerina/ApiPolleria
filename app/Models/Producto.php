@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Stock;
 use App\Models\Proveedor;
 use App\Models\Porcentaje;
+use App\Models\VentaXProducto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,4 +36,11 @@ class Producto extends Model
     public function porcentaje(){
         return $this->hasMany(Porcentaje::class, 'por_id');
     }
+
+    //Relacion uno a muchos (producto-ventaxproducto)
+    public function ventaxproductos()
+    {
+        return $this->hasMany(VentaXProducto::class, 'prod_id');
+    }
+
 }

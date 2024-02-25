@@ -3,15 +3,18 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\FormaPagoController;
 use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ParametrosController;
 use App\Http\Controllers\PorcentajeController;
 use App\Http\Controllers\CondicionIvaController;
 use App\Http\Controllers\HistorialStockController;
+use App\Http\Controllers\VentaxProductoController;
 
 //Usuario
 Route::post('/login', [UsuarioController::class, 'login']);
@@ -78,5 +81,24 @@ Route::get('/parametro', [ParametrosController::class, 'getParametro']);
 Route::post('/parametro/nuevo', [ParametrosController::class, 'createParametro']);
 Route::put('/parametro/actualizar', [ParametrosController::class, 'updateParametro']);
 
+
+//Forma de pago
+Route::get('/formaPago', [FormaPagoController::class, 'getFormaPago']);
+Route::post('/formaPago/nuevo', [FormaPagoController::class, 'createFormaPago']);
+Route::put('/formaPago/actualizar/{form_pago_id}', [FormaPagoController::class, 'updateFormaPago']);
+Route::delete('/formaPago/eliminar/{form_pago_id}', [FormaPagoController::class, 'deleteFormaPago']);
+
+
+//Venta
+Route::get('/venta', [VentaController::class, 'getVenta']);
+Route::post('/venta/nuevo', [VentaController::class, 'createVenta']);
+Route::put('/venta/actualizar/{ven_id}', [VentaController::class, 'updateVenta']);
+Route::delete('/venta/eliminar/{ven_id}', [VentaController::class, 'deleteVenta']);
+
+//VentaXProducto
+Route::get('/detalleVenta', [VentaxProductoController::class, 'getVentaxProducto']);
+Route::post('/detalleVenta/nuevo', [VentaxProductoController::class, 'createVentaxProducto']);
+Route::put('/detalleVenta/actualizar/{id}', [VentaxProductoController::class, 'updateVentaxProducto']);
+Route::delete('/detalleVenta/eliminar/{id}', [VentaxProductoController::class, 'deleteVentaxProducto']);
 
 });
