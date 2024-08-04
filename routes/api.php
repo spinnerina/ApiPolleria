@@ -13,6 +13,7 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ParametrosController;
 use App\Http\Controllers\PorcentajeController;
 use App\Http\Controllers\CondicionIvaController;
+use App\Http\Controllers\TipoProductoController;
 use App\Http\Controllers\HistorialStockController;
 use App\Http\Controllers\VentaxProductoController;
 
@@ -101,4 +102,8 @@ Route::post('/detalleVenta/nuevo', [VentaxProductoController::class, 'createVent
 Route::put('/detalleVenta/actualizar/{id}', [VentaxProductoController::class, 'updateVentaxProducto']);
 Route::delete('/detalleVenta/eliminar/{id}', [VentaxProductoController::class, 'deleteVentaxProducto']);
 
+
+//TipoProducto
+Route::post('/tipoProducto/nuevo', [TipoProductoController::class, 'create']);
+Route::get('/tipoProducto', [TipoProductoController::class, 'getTipoProducto']);
 });
